@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>강나연 포트폴리오</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Oswald:wght@400;700&family=Kanit:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
+      overflow-y: auto;
+      overflow-x: hidden;
+      height: 100vh;
+      font-family: 'Jua', sans-serif;
+      background-color: #f9f6dc;
+      color: #2e5639;
+    }
+
+    /* 네비게이션 바 */
+    .nav-bar {
+      position: fixed;
+      top: 20px;
+      right: 70px;
+      display: flex;
+      gap: 10px;
+      z-index: 1000;
+    }
+
+    .nav-button {
+      background: #2e5639;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-family: 'Jua', sans-serif;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-button:hover {
+      transform: scale(1.05);
+      background: #3e6649;
+    }
+
+    /* Profile 섹션에서 네비게이션 색상 반전 */
+    .nav-inverted .nav-button {
+      background: #f9f6dc !important;
+      color: #2e5639 !important;
+      border: 2px solid #2e5639 !important;
+    }
+
+    .nav-inverted .nav-button:hover {
+      background: #ffffff !important;
+      color: #2e5639 !important;
+    }
+
+    .nav-button:active {
+      transform: scale(0.95);
+    }
+
+    section, header, footer {
+      height: 100vh;
+      scroll-snap-align: start;
+      position: relative;
+    }
+
+    #contact-section {
+      height: 100vh;
+      scroll-snap-align: start;
+    }
+
+    #contact-section footer {
+      box-sizing: border-box;
+      height: 100%;
+      padding-top: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background-color: #f9f6dc;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background-color: #f9f6dc;
+      overflow: hidden;
+    }
+
+    .hero .year {
+      width: 400px;
+      max-width: 100%;
+      position: absolute;
+      z-index: 0;
+    }
+
+    .hello-float {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hello-float img {
+      width: 500px;
+      height: auto;
+      position: absolute;
+      pointer-events: none;
+      transform: scale(0) translateX(0);
+      opacity: 0;
+      animation: spreadIn 1.2s ease-out forwards;
+    }
+
+    .hello-float img:nth-child(1) { 
+      animation-delay: 0s; 
+      width: 500px; /* H는 원래 크기 유지 */
+    }
+    .hello-float img:nth-child(2) { 
+      animation-delay: 0.1s; 
+      width: 420px; /* E 줄임 */
+    }
+    .hello-float img:nth-child(3) { 
+      animation-delay: 0.2s; 
+      width: 420px; /* L 줄임 */
+    }
+    .hello-float img:nth-child(4) { 
+      animation-delay: 0.3s; 
+      width: 420px; /* L 줄임 */
+    }
+    .hello-float img:nth-child(5) { 
+      animation-delay: 0.4s; 
+      width: 420px; /* O 줄임 */
+    }
+
+    @keyframes spreadIn {
+      0% {
+        transform: scale(0) translateX(0);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1) translateX(var(--spread-x));
+        opacity: 1;
+      }
+    }
+
+    h2 {
+      font-size: 100px;
+      margin-bottom: 50px;
+      font-family: 'Oswald', sans-serif;
+      margin-left: 190px;
+      margin-top: 30px;
+    }
+
+    section > h2 {
+      margin-left: calc(50% - 750px);
+      font-size: 100px;
+      font-family: 'Oswald', sans-serif;
+      margin-bottom: 50px;
+    }
+
+    .project-layout {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      height: 100vh;
+    }
+
+    .project-title {
+      font-size: 100px;
+      font-family: 'Oswald', sans-serif;
+      margin: 0px 0 0 -20px;
+      align-self: flex-start;
+      position: absolute;
+      top: 30px;
+      left: 0px;
+      z-index: 10;
+    }
+
+    .project-content {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 30px 0 0 0px;
+      width: 100%;
+      justify-content: flex-start;
+      position: relative;
+    }
+
+    .projects-column {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin: 30px 0 0 -100px;
+      gap: 0px;
+      flex-shrink: 0;
+      padding-top: 130px;
+      padding-left: -10px;
+    }
+
+    .projects-column.visible {
+      display: flex;
+    }
+
+    .video-container {
+      margin-left: 50px;
+      width: 1070px;
+      height: 600px;
+      margin: 50px 0 0 0;
+      background-color: #2e5639;
+      border: 4px solid #2e5639;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      box-sizing: border-box;
+      flex-shrink: 0;
+      color: #f9f6dc;
+      font-family: 'Jua', sans-serif;
+      font-size: 18px;
+    }
+
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .projects {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex-shrink: 0;
+      min-width: 200px;
+    }
+
+    .project-item {
+      width: 200px;
+      height: 80px;
+      color: white;
+      font-size: 12px;
+      border: none;
+      padding: 8px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      box-shadow: none;
+      transition: transform 0.2s ease;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center center;
+      position: relative;
+    }
+
+    .project-item:nth-child(1) { 
+      background-image: url('images/11.png');
+    }
+    .project-item:nth-child(2) { 
+      background-image: url('images/12.png');
+    }
+    .project-item:nth-child(3) { 
+      background-image: url('images/13.png');
+    }
+    .project-item:nth-child(4) { 
+      background-image: url('images/14.png');
+    }
+
+    .project-item span {
+      line-height: 1.1;
+      font-weight: bold;
+      font-family: 'Jua', sans-serif;
+    }
+
+    .project-item:hover {
+      transform: scale(1.1);
+    }
+
+    .project-more-btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 60px;
+      height: 20px;
+      background-color: rgba(46, 86, 57, 0.9);
+      color: white;
+      border: 1px solid white;
+      border-radius: 10px;
+      font-size: 10px;
+      font-family: 'Jua', sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      z-index: 10;
+      text-align: center;
+      line-height: 1;
+      padding: 0;
+      margin: 0;
+    }
+
+    .project-more-btn:hover {
+      background-color: #f5c949;
+      color: #2e5639;
+      transform: scale(1.05);
+    }
+
+    .about {
+      background-color: #2e5639;
+      color: #f9f6dc;
+      padding: 40px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .about h2 {
+      font-size: 80px;
+      font-family: 'Oswald', sans-serif;
+      margin: 20px 0 40px 0;
+      color: #f9f6dc;
+    }
+
+    .about-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      max-width: 1000px;
+      width: 100%;
+      gap: 80px;
+      margin: 100px 0 0 0;
+      flex: 1;
+    }
+
+    .profile {
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+      flex-shrink: 0;
+    }
+
+    .profile-photo {
+      width: 160px;
+      height: 200px;
+      background-color: #f9f6dc;
+      margin-bottom: 15px;
+      border-radius: 8px;
+    }
+
+    .profile-info {
+      font-size: 22px;
+      text-align: left;
+      line-height: 1.5;
+    }
+
+    .profile-info strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 22px;
+    }
+
+    .certification-skill {
+      font-size: 30px;
+      text-align: left;
+      flex: 1;
+    }
+
+    .certification-section strong {
+      display: block;
+      margin-bottom: 12px;
+      text-align: left;
+      font-size: 30px !important;
+      white-space: nowrap;
+    }
+
+    .certification-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 20px !important;
+      text-align: left;
+    }
+
+    .certification-section li {
+      margin-bottom: 16px;
+      padding-left: 40px;
+      position: relative;
+      line-height: 1.3;
+      font-size: 20px !important;
+      text-align: left;
+      white-space: nowrap;
+      overflow: visible;
+    }
+
+    .certification-section li:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #f5c949;
+      font-size: 20px !important;
+    }
+
+    .skills {
+      font-size: 18px;
+      text-align: left;
+      border: 3px solid #f9f6dc;
+      border-radius: 15px;
+      padding: 25px;
+      min-width: 300px;
+    }
+
+    .skills strong {
+      display: block;
+      margin-bottom: 20px;
+      font-size: 24px;
+      text-align: center;
+    }
+
+    .skill-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 6px;
+    }
+
+    .skill-icon {
+      width: 26px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+
+    .skills-bar {
+      background-color: #f9f6dc;
+      height: 24px;
+      border-radius: 12px;
+      flex: 1;
+      max-width: 200px;
+      overflow: hidden;
+    }
+
+    .skills-bar-fill {
+      background-color: #f5c949;
+      height: 100%;
+      border-radius: 12px;
+      width: 0%;
+      transition: width 2s ease-in-out;
+    }
+
+    .about.animate .skills-bar-fill {
+      transition: width 2s ease-in-out;
+    }
+
+    .about.animate .skills-bar-fill[data-width="80"] { width: 80%; }
+    .about.animate .skills-bar-fill[data-width="70"] { width: 70%; }
+    .about.animate .skills-bar-fill[data-width="90"] { width: 90%; }
+    .about.animate .skills-bar-fill[data-width="75"] { width: 75%; }
+    .about.animate .skills-bar-fill[data-width="60"] { width: 60%; }
+
+    .footer-title {
+      font-family: 'Kanit', sans-serif;
+      font-size: 100px;
+      color: #2e5639;
+      margin-top: 0px;
+      text-align: center;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .footer-thanks {
+      font-family: 'Jua', sans-serif;
+      font-size: clamp(20px, 4vw, 32px);
+      color: #000;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .contact {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .contact-button-wrapper {
+      margin: 100px 0 30px 0;
+    }
+
+    .contact-button {
+      display: block;
+      margin: 0 auto;
+      width: clamp(150px, 20vw, 300px);
+      height: auto;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Jua', sans-serif;
+      font-size: clamp(20px, 3vw, 28px);
+      color: #2e5639;
+    }
+
+    .contact-item .icon {
+      width: clamp(24px, 4vw, 32px);
+      height: auto;
+      margin-right: 12px;
+    }
+  </style>
+</head>
+<body>
+<!-- 네비게이션 바 -->
+<div class="nav-bar">
+  <button class="nav-button" onclick="goToPage(0)">Intro</button>
+  <button class="nav-button" onclick="goToPage(1)">Portfolio</button>
+  <button class="nav-button" onclick="goToPage(2)">Profile</button>
+  <button class="nav-button" onclick="goToPage(3)">Contact</button>
+</div>
+
+<header class="hero" id="hero">
+  <img src="images/2024.png" class="year" alt="2025" />
+  <div class="hello-float" id="helloContainer">
+    <img src="images/button.png" alt="H" style="--spread-x: -240px; transform: scale(1.114);" />
+    <img src="images/e.png" alt="E" style="--spread-x: -120px;" />
+    <img src="images/l.png" alt="L" style="--spread-x: 0px;" />
+    <img src="images/l2.png" alt="L" style="--spread-x: 120px;" />
+    <img src="images/o.png" alt="O" style="--spread-x: 240px;" />
+  </div>
+</header>
+
+<section id="portfolio">
+  <div class="project-layout">
+    <h2 class="project-title">PROJECT</h2>
+    <div class="project-content">
+      <div class="projects-column">
+        <div class="projects">
+          <div class="project-item" onclick="playVideo('videos/럭키밀.mp4')">
+            <button class="project-more-btn" onclick="event.stopPropagation(); openProjectOverview('images/overview1.jpg')">MORE</button>
+          </div>
+          <div class="project-item" onclick="playVideo('videos/영유아안전영상.mp4')">
+            <button class="project-more-btn" onclick="event.stopPropagation(); openProjectOverview('images/overview2.jpg')">MORE</button>
+          </div>
+          <div class="project-item" onclick="playVideo('videos/집.mp4')">
+            <button class="project-more-btn" onclick="event.stopPropagation(); openProjectOverview('images/overview3.jpg')">MORE</button>
+          </div>
+          <div class="project-item" onclick="playVideo('videos/FOOH광고.mp4')">
+            <button class="project-more-btn" onclick="event.stopPropagation(); openMultipleOverview(['images/overview4.jpg', 'images/overview4-2.jpg'])">MORE</button>
+          </div>
+        </div>
+      </div>
+      <div class="video-container" id="videoPlayer">
+        <span id="videoPlaceholder">프로젝트를 선택해주세요</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="profile">
+  <h2>ABOUT ME</h2>
+  <div class="about-inner">
+    <div class="profile">
+      <div class="profile-photo"></div>
+      <div class="profile-info">
+        강나연 KANG NAYEON<br/>
+        BIRTH : 97.05.04<br/>
+        PHONE : 010.3247.1509<br/>
+        E-MAIL : rkdskdus13@naver.com
+      </div>
+    </div>
+    
+    <div class="certification-skills">
+      <div class="certification-section">
+        <strong class="section-title">CERTIFICATION</strong>
+        <ul>
+          <li>GTQ Photoshop 1급(25.07)</li>
+          <li>멀티미디어콘텐츠제작전문가 취득예정(25.11)</li>
+        </ul>
+      </div>
+      
+      <div class="skills-section" style="margin-top: 65px; background-color: transparent;">
+        <strong style="display: block; margin-bottom: 20px; font-size: 30px !important; text-align: left; color: #f9f6dc; white-space: nowrap;">SKILL & ABILITY</strong>
+        <div class="skill-item">
+          <img src="images/ae.png" alt="After Effects" class="skill-icon" />
+          <div class="skills-bar"><div class="skills-bar-fill" data-width="80"></div></div>
+        </div>
+        <div class="skill-item">
+          <img src="images/pr.png" alt="Premiere Pro" class="skill-icon" />
+          <div class="skills-bar"><div class="skills-bar-fill" data-width="70"></div></div>
+        </div>
+        <div class="skill-item">
+          <img src="images/ps.png" alt="Photoshop" class="skill-icon" />
+          <div class="skills-bar"><div class="skills-bar-fill" data-width="90"></div></div>
+        </div>
+        <div class="skill-item">
+          <img src="images/ai.png" alt="Illustrator" class="skill-icon" />
+          <div class="skills-bar"><div class="skills-bar-fill" data-width="75"></div></div>
+        </div>
+        <div class="skill-item">
+          <img src="images/bl.png" alt="Blender" class="skill-icon" />
+          <div class="skills-bar"><div class="skills-bar-fill" data-width="60"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact-section">
+  <footer>
+    <div class="footer-title">Thank You For Your Time</div>
+    <div class="footer-thanks">끝까지 봐주셔서 감사합니다 :)</div>
+
+    <div class="contact-button-wrapper">
+      <img src="images/contact.png" alt="Contact" class="contact-button" />
+    </div>
+
+    <div class="contact">
+      <div class="contact-item">
+        <img src="images/Mess.png" alt="Email" class="icon" />
+        <span>rkdskdus13@naver.com</span>
+      </div>
+      <div class="contact-item">
+        <img src="images/Ph.png" alt="Phone" class="icon" />
+        <span>010.3247.1509</span>
+      </div>
+    </div>
+  </footer>
+</section>
+
+<script>
+// 네비게이션 색상 변경 함수
+function changeNavColor(isProfile) {
+  const navButtons = document.querySelectorAll('.nav-button');
+  
+  navButtons.forEach(button => {
+    if (isProfile) {
+      // Profile 섹션 색상 (스트로크 없음)
+      button.style.backgroundColor = '#f9f6dc';
+      button.style.color = '#2e5639';
+      button.style.border = 'none';
+      button.style.boxShadow = '0 4px 8px rgba(249, 246, 220, 0.2)';
+    } else {
+      // 기본 색상
+      button.style.backgroundColor = '#2e5639';
+      button.style.color = 'white';
+      button.style.border = 'none';
+      button.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+    }
+  });
+}
+
+// 전역 변수 수정
+let isInitialLoad = true; // 최초 로딩인지 확인
+let currentSection = 'hero'; // 현재 있는 섹션 추적
+
+// HELLO 애니메이션을 다시 시작하는 함수 (재방문용)
+function restartHelloAnimation() {
+  // 최초 로딩 중이면 실행하지 않음
+  if (isInitialLoad) {
+    console.log('최초 로딩 중이므로 애니메이션 재시작 안 함');
+    return;
+  }
+  
+  const helloImgs = document.querySelectorAll("#helloContainer img");
+  const hero = document.getElementById("hero");
+  const heroWidth = hero.clientWidth;
+  const heroHeight = hero.clientHeight;
+  
+  // 기존 플로팅 애니메이션 완전히 중지
+  if (window.floatingAnimationId) {
+    cancelAnimationFrame(window.floatingAnimationId);
+    window.floatingAnimationId = null;
+  }
+  
+  // 모든 이미지 위치 및 스타일 완전 초기화
+  helloImgs.forEach((img, index) => {
+    // 애니메이션 완전히 제거
+    img.style.animation = 'none';
+    img.style.transform = 'scale(0) translateX(0)';
+    img.style.opacity = '0';
+    
+    // 원래 초기 위치 계산
+    let w = 500;
+    if (img.src.includes("button.png")) {
+      w += 70; // H는 570px
+    } else {
+      w = 420; // E, L, L, O는 420px
+    }
+    const h = img.naturalHeight * (w / img.naturalWidth);
+    const spreadX = parseFloat(getComputedStyle(img).getPropertyValue('--spread-x')) || 0;
+    const baseX = (heroWidth - w) / 2 + spreadX + 50; // 왼쪽으로 50px 이동
+    const baseY = (heroHeight - h) / 2 - 50;
+
+    // 강제로 위치 설정
+    img.style.left = `${baseX}px`;
+    img.style.top = `${baseY}px`;
+    img.style.position = 'absolute';
+    
+    // elements 배열 초기화
+    if (elements[index]) {
+      elements[index].x = baseX;
+      elements[index].y = baseY;
+      elements[index].dx = (Math.random() - 0.5) * 0.6; // 3배 빠른 속도
+      elements[index].dy = (Math.random() - 0.5) * 0.6;
+    }
+  });
+  
+  // 애니메이션 카운터 초기화
+  appearCount = 0;
+  
+  // 잠시 후 새로운 애니메이션 시작
+  setTimeout(() => {
+    helloImgs.forEach((img, index) => {
+      img.style.animation = `spreadIn 1.2s ease-out forwards`;
+      img.style.animationDelay = `${index * 0.1}s`;
+    });
+  }, 100);
+  
+  console.log('🎬 HELLO 애니메이션 재시작!');
+}
+
+// 현재 재생 중인 비디오를 정지하는 함수
+function pauseCurrentVideo() {
+  const container = document.getElementById('videoPlayer');
+  const currentVideo = container.querySelector('video');
+  
+  if (currentVideo) {
+    currentVideo.pause();
+    currentVideo.currentTime = 0; // 비디오를 처음으로 되돌림
+    console.log('✅ 비디오 정지 및 초기화 완료');
+  } else {
+    console.log('❌ 재생 중인 비디오가 없음');
+  }
+}
+
+// 네비게이션 함수 수정
+function goToPage(pageIndex) {
+  const sections = ['#hero', '#portfolio', '#profile', '#contact-section'];
+  const targetId = sections[pageIndex];
+  const targetElement = document.querySelector(targetId);
+  
+  // Portfolio 페이지에서 다른 페이지로 이동할 때 비디오 정지 (이동 전에 실행)
+  if (currentSection === 'portfolio' && pageIndex !== 1) {
+    pauseCurrentVideo();
+    console.log('🎬 Portfolio 페이지 벗어남 - 비디오 정지');
+  }
+  
+  if (targetElement) {
+    targetElement.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+  
+  // Intro 페이지로 이동할 때 (다른 섹션에서 왔을 때만)
+  if (pageIndex === 0 && currentSection !== 'hero') {
+    setTimeout(() => {
+      restartHelloAnimation();
+    }, 800);
+  }
+  
+  // 페이지에 따라 네비게이션 색상 변경
+  if (pageIndex === 2) { // Profile 페이지
+    setTimeout(() => {
+      changeNavColor(true);
+    }, 100);
+  } else { // 다른 페이지들
+    changeNavColor(false);
+  }
+}
+
+// Intersection Observer를 사용한 스크롤 감지
+function initScrollObserver() {
+  const sections = [
+    { element: document.querySelector('#hero'), isProfile: false },
+    { element: document.querySelector('#portfolio'), isProfile: false },
+    { element: document.querySelector('#profile'), isProfile: true },
+    { element: document.querySelector('#contact-section'), isProfile: false }
+  ];
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const sectionId = entry.target.id;
+        const previousSection = currentSection;
+        
+        // Portfolio 섹션을 벗어나면 비디오 정지 (섹션 업데이트 전에 실행)
+        if (previousSection === 'portfolio' && sectionId !== 'portfolio') {
+          pauseCurrentVideo();
+          console.log('🎬 Portfolio 섹션 벗어남 (스크롤) - 비디오 정지');
+        }
+        
+        currentSection = sectionId; // 현재 섹션 업데이트
+        console.log('섹션 이동:', previousSection, '→', sectionId);
+        
+        if (sectionId === 'hero') {
+          // 다른 섹션에서 Hero 섹션으로 스크롤해서 왔을 때만 애니메이션 재시작
+          if (!isInitialLoad && previousSection !== 'hero') {
+            setTimeout(() => {
+              restartHelloAnimation();
+            }, 300);
+            console.log('🎬 Hero 섹션 - 스크롤로 재진입, 애니메이션 재시작!');
+          } else if (isInitialLoad) {
+            console.log('🎬 Hero 섹션 - 최초 로딩');
+          } else {
+            console.log('🎬 Hero 섹션 - 이미 Hero 섹션에 있음');
+          }
+          changeNavColor(false);
+        } else if (sectionId === 'profile') {
+          changeNavColor(true);
+          console.log('🎯 Profile 섹션 - 색상 반전!');
+        } else {
+          changeNavColor(false);
+          console.log('📍', sectionId, '섹션 - 원래 색상');
+        }
+      }
+    });
+  }, {
+    threshold: 0.5,
+    rootMargin: '-10% 0px -10% 0px'
+  });
+
+  // 모든 섹션 관찰 시작
+  sections.forEach(section => {
+    if (section.element) {
+      observer.observe(section.element);
+    }
+  });
+  
+  console.log('Intersection Observer 시작됨');
+}
+
+// 페이지 로드 시 초기 실행
+document.addEventListener('DOMContentLoaded', () => {
+  initScrollObserver();
+  changeNavColor(false); // 초기에는 기본 색상
+  console.log('페이지 로드 완료 - 네비게이션 초기화');
+  
+  // 최초 애니메이션 완료 후 플래그 해제 (좀 더 빠르게)
+  setTimeout(() => {
+    isInitialLoad = false;
+    console.log('최초 로딩 플래그 해제 - 이제 애니메이션 재시작 가능');
+  }, 2000); // 2초로 단축
+});
+
+  // HELLO 애니메이션 코드
+  const hero = document.getElementById("hero");
+  const helloImgs = document.querySelectorAll("#helloContainer img");
+  const heroWidth = hero.clientWidth;
+  const heroHeight = hero.clientHeight;
+  const elements = [];
+  let appearCount = 0;
+
+  helloImgs.forEach((img) => {
+    let w = 500;
+    if (img.src.includes("button.png")) {
+      w += 70; // H는 원래대로 570px
+    } else {
+      w = 420; // E, L, L, O는 420px로 줄임
+    }
+    const h = img.naturalHeight * (w / img.naturalWidth);
+    const spreadX = parseFloat(getComputedStyle(img).getPropertyValue('--spread-x')) || 0;
+    const baseX = (heroWidth - w) / 2 + spreadX + 50; // 왼쪽으로 50px 이동
+    const baseY = (heroHeight - h) / 2 - 50; // 위로 50px 올림
+
+    img.style.left = `${baseX}px`;
+    img.style.top = `${baseY}px`;
+
+    img.addEventListener("animationend", () => {
+      appearCount++;
+      if (appearCount === helloImgs.length) startFloating();
+    });
+
+    // 처음부터 자연스러운 무작위 방향과 속도 설정 (3배 빠르게)
+    elements.push({
+      img,
+      x: baseX,
+      y: baseY,
+      dx: (Math.random() - 0.5) * 0.6, // 0.2에서 0.6으로 3배 증가
+      dy: (Math.random() - 0.5) * 0.6,
+      w,
+      h,
+      floatOffset: Math.random() * Math.PI * 2,
+      floatSpeed: 0.015 + Math.random() * 0.009, // 0.005-0.008에서 0.015-0.024로 3배 증가
+      minSpeed: 0.15, // 0.05에서 0.15로 3배 증가
+    });
+  });
+
+  function startFloating() {
+    let time = 0;
+    
+    function animate() {
+      time += 0.016;
+      
+      elements.forEach((el) => {
+        // 자연스러운 플로팅 효과 (3배 빠르게)
+        const floatY = Math.sin(time * el.floatSpeed + el.floatOffset) * 1.2; // 0.4에서 1.2로 3배 증가
+        const floatX = Math.cos(time * el.floatSpeed * 0.7 + el.floatOffset) * 0.9; // 0.3에서 0.9로 3배 증가
+        
+        el.x += el.dx + floatX * 0.6; // 0.2에서 0.6으로 3배 증가
+        el.y += el.dy + floatY * 0.6;
+
+        // 최소 속도 보장
+        const currentSpeed = Math.sqrt(el.dx * el.dx + el.dy * el.dy);
+        if (currentSpeed < el.minSpeed) {
+          const scale = el.minSpeed / currentSpeed;
+          el.dx *= scale;
+          el.dy *= scale;
+        }
+
+        // 최대 속도 제한 (벽 튕김을 위해 더 증가)
+        const maxSpeed = 1.2; // 0.8에서 1.2로 증가 (강한 벽 튕김 허용)
+        if (currentSpeed > maxSpeed) {
+          const scale = maxSpeed / currentSpeed;
+          el.dx *= scale;
+          el.dy *= scale;
+        }
+
+        const topBottomMargin = 0; // 상하 여백 제거 (화면 경계와 정확히 맞춤)
+        const sideMargin = 300;
+        
+        // 벽 충돌 시 매우 강력한 반발 (3배 더 강화!)
+        if (el.x < sideMargin) {
+          el.x = sideMargin + 5; // 약간 안쪽으로 밀어넣기
+          el.dx = Math.abs(el.dx) * 5.4; // 강력한 오른쪽 튕김
+          console.log('왼쪽 벽 충돌! 속도:', el.dx);
+        } else if (el.x + el.w > heroWidth - sideMargin) {
+          el.x = heroWidth - sideMargin - el.w - 5; // 약간 안쪽으로 밀어넣기
+          el.dx = -Math.abs(el.dx) * 5.4; // 강력한 왼쪽 튕김
+          console.log('오른쪽 벽 충돌! 속도:', el.dx);
+        }
+
+        if (el.y < topBottomMargin) {
+          el.y = topBottomMargin + 5; // 화면 맨 위에서 튕김
+          el.dy = Math.abs(el.dy) * 5.4; // 강력한 아래쪽 튕김
+          console.log('위쪽 벽 충돌! 속도:', el.dy);
+        } else if (el.y + el.h > heroHeight - topBottomMargin) {
+          el.y = heroHeight - topBottomMargin - el.h - 5; // 화면 맨 아래에서 튕김
+          el.dy = -Math.abs(el.dy) * 5.4; // 강력한 위쪽 튕김
+          console.log('아래쪽 벽 충돌! 속도:', el.dy);
+        }
+      });
+
+      // 풍선 같은 충돌 감지 및 처리
+      for (let i = 0; i < elements.length; i++) {
+        for (let j = i + 1; j < elements.length; j++) {
+          const el1 = elements[i];
+          const el2 = elements[j];
+          
+          const centerX1 = el1.x + el1.w / 2;
+          const centerY1 = el1.y + el1.h / 2;
+          const centerX2 = el2.x + el2.w / 2;
+          const centerY2 = el2.y + el2.h / 2;
+          
+          const dx = centerX2 - centerX1;
+          const dy = centerY2 - centerY1;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          // 각 글자별 개별 충돌 경계 설정 (1.2배 더 확대)
+          let radius1, radius2;
+          
+          // el1의 반지름 결정 (현재 값에서 1.2배)
+          if (el1.img.src.includes("button.png")) { // H
+            radius1 = 54; // 45에서 54로 (1.2배)
+          } else if (el1.img.src.includes("e.png")) { // E
+            radius1 = 45; // 37.5에서 45로 (1.2배)
+          } else if (el1.img.src.includes("l.png") || el1.img.src.includes("l2.png")) { // L들
+            radius1 = 39.6; // 33에서 39.6으로 (1.2배)
+          } else if (el1.img.src.includes("o.png")) { // O
+            radius1 = 50.4; // 42에서 50.4로 (1.2배)
+          } else {
+            radius1 = 45; // 기본값도 1.2배
+          }
+          
+          // el2의 반지름 결정 (현재 값에서 1.2배)
+          if (el2.img.src.includes("button.png")) { // H
+            radius2 = 54;
+          } else if (el2.img.src.includes("e.png")) { // E
+            radius2 = 45;
+          } else if (el2.img.src.includes("l.png") || el2.img.src.includes("l2.png")) { // L들
+            radius2 = 39.6;
+          } else if (el2.img.src.includes("o.png")) { // O
+            radius2 = 50.4;
+          } else {
+            radius2 = 45; // 기본값도 1.2배
+          }
+          
+          const minDistance = radius1 + radius2;
+          
+          if (distance < minDistance && distance > 0) {
+            const normalX = dx / distance;
+            const normalY = dy / distance;
+            
+            // 부드러운 분리 (더 강력한 분리)
+            const overlap = minDistance - distance;
+            const separateDistance = overlap * 1.5; // 0.9에서 1.5로 더 강하게
+            
+            el1.x -= normalX * separateDistance;
+            el1.y -= normalY * separateDistance;
+            el2.x += normalX * separateDistance;
+            el2.y += normalY * separateDistance;
+            
+            // 풍선 같은 탄성 충돌 (훨씬 더 강하게!)
+            const bounceIntensity = 1.5; // 0.9에서 1.5로 대폭 증가
+            const damping = 0.5; // 0.6에서 0.5로 변경 (더 적은 감쇠)
+            
+            // 충돌 전 속도
+            const vel1X = el1.dx;
+            const vel1Y = el1.dy;
+            const vel2X = el2.dx;
+            const vel2Y = el2.dy;
+            
+            // 풍선 같은 속도 교환 (탄성 충돌)
+            el1.dx = (vel1X + (vel2X - vel1X) * bounceIntensity) * damping;
+            el1.dy = (vel1Y + (vel2Y - vel1Y) * bounceIntensity) * damping;
+            el2.dx = (vel2X + (vel1X - vel2X) * bounceIntensity) * damping;
+            el2.dy = (vel2Y + (vel1Y - vel2Y) * bounceIntensity) * damping;
+            
+            // 추가 반발력 (대폭 강화!)
+            const repelForce = 0.15; // 0.06에서 0.15로 2.5배 증가
+            el1.dx -= normalX * repelForce;
+            el1.dy -= normalY * repelForce;
+            el2.dx += normalX * repelForce;
+            el2.dy += normalY * repelForce;
+            
+            // 충돌 후 추가 가속 (확실한 튕김을 위해)
+            const extraBounce = 0.1;
+            el1.dx -= normalX * extraBounce;
+            el1.dy -= normalY * extraBounce;
+            el2.dx += normalX * extraBounce;
+            el2.dy += normalY * extraBounce;
+            
+            // 최소 속도 보장
+            [el1, el2].forEach(el => {
+              const speed = Math.sqrt(el.dx * el.dx + el.dy * el.dy);
+              if (speed < el.minSpeed) {
+                const scale = el.minSpeed / speed;
+                el.dx *= scale;
+                el.dy *= scale;
+              }
+            });
+          }
+        }
+      }
+
+      elements.forEach((el) => {
+        el.img.style.left = `${el.x}px`;
+        el.img.style.top = `${el.y}px`;
+      });
+      
+      window.floatingAnimationId = requestAnimationFrame(animate);
+    }
+    animate();
+  }
+
+  // 스킬 바 애니메이션
+  const aboutSection = document.querySelector('.about');
+  
+  const observerOptions = {
+    threshold: 0.3,
+    rootMargin: '0px'
+  };
+  
+  const aboutObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('animate');
+        }, 500);
+      } else {
+        entry.target.classList.remove('animate');
+      }
+    });
+  }, observerOptions);
+  
+  if (aboutSection) {
+    aboutObserver.observe(aboutSection);
+  }
+
+  function playVideo(path) {
+    const container = document.getElementById('videoPlayer');
+    const placeholder = document.getElementById('videoPlaceholder');
+    
+    const existingVideo = container.querySelector('video');
+    if (existingVideo) {
+      existingVideo.remove();
+    }
+    
+    if (placeholder) {
+      placeholder.style.display = 'none';
+    }
+    
+    const video = document.createElement('video');
+    video.src = path;
+    video.controls = true;
+    video.autoplay = true;
+    video.style.width = '100%';
+    video.style.height = '100%';
+    
+    video.addEventListener('loadedmetadata', function() {
+      const videoWidth = this.videoWidth;
+      const videoHeight = this.videoHeight;
+      const aspectRatio = videoWidth / videoHeight;
+      
+      if (aspectRatio < 1) {
+        const maxHeight = 680;
+        const calculatedWidth = Math.round(maxHeight * aspectRatio);
+        
+        video.style.objectFit = 'fill';
+        container.classList.add('vertical');
+        container.style.width = (calculatedWidth + 8) + 'px';
+        container.style.height = (maxHeight + 8) + 'px';
+        container.style.backgroundColor = '#000';
+      } else {
+        video.style.objectFit = 'fill';
+        container.classList.remove('vertical');
+        container.style.width = '1070px';
+        container.style.height = '600px';
+        container.style.backgroundColor = '#ddd';
+      }
+    });
+    
+    container.appendChild(video);
+  }
+
+  // 프로젝트 개요 이미지를 새창으로 여는 함수
+  function openProjectOverview(imagePath) {
+    const newWindow = window.open('', '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
+    
+    newWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>프로젝트 개요</title>
+        <style>
+          body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f6dc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Jua', sans-serif;
+          }
+          img {
+            max-width: 100%;
+            max-height: 90vh;
+            border: 3px solid #2e5639;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+          }
+          .close-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #2e5639;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Jua', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+          }
+          .close-btn:hover {
+            background-color: #3e6649;
+            transform: scale(1.05);
+          }
+        </style>
+      </head>
+      <body>
+        <button class="close-btn" onclick="window.close()">닫기</button>
+        <img src="${imagePath}" alt="프로젝트 개요" />
+      </body>
+      </html>
+    `);
+    
+    newWindow.document.close();
+  }
+
+  // 여러 개의 프로젝트 개요 이미지를 새창으로 여는 함수
+  function openMultipleOverview(imagePaths) {
+    const newWindow = window.open('', '_blank', 'width=900,height=700,resizable=yes');
+    
+    newWindow.document.write(`
+      <!DOCTYPE html>
+      <html style="scroll-snap-type: y mandatory; scroll-behavior: smooth;">
+      <head>
+        <title>프로젝트 개요</title>
+        <style>
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          
+          html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+          }
+          
+          body {
+            background-color: #f9f6dc;
+            font-family: 'Jua', sans-serif;
+            overflow-x: hidden;
+          }
+          
+          .image-page {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+          }
+          
+          img {
+            max-width: 85%;
+            max-height: 80vh;
+            border: 3px solid #2e5639;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            object-fit: contain;
+          }
+          
+          .page-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(46, 86, 57, 0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-family: 'Jua', sans-serif;
+          }
+          
+          .close-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #2e5639;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Jua', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+          }
+          
+          .close-btn:hover {
+            background-color: #3e6649;
+            transform: scale(1.05);
+          }
+          
+          .scroll-hint {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(245, 201, 73, 0.9);
+            color: #2e5639;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-family: 'Jua', sans-serif;
+            z-index: 1000;
+            animation: bounce 2s infinite;
+          }
+          
+          @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+              transform: translateY(0);
+            }
+            40% {
+              transform: translateY(-5px);
+            }
+            60% {
+              transform: translateY(-3px);
+            }
+          }
+        </style>
+      </head>
+      <body>
+        <button class="close-btn" onclick="window.close()">닫기</button>
+        <div class="scroll-hint">스크롤해서 다음 이미지 보기 ↓</div>
+        ${imagePaths.map((imagePath, index) => `
+          <div class="image-page">
+            <img src="${imagePath}" alt="프로젝트 개요 ${index + 1}" />
+            <div class="page-indicator">${index + 1} / ${imagePaths.length}</div>
+          </div>
+        `).join('')}
+      </body>
+      </html>
+    `);
+    
+    newWindow.document.close();
+  }
+</script>
+</body>
+</html>
