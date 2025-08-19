@@ -40,11 +40,43 @@
       cursor: pointer;
       transition: all 0.3s ease;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      position: relative;
     }
 
     .nav-button:hover {
       transform: scale(1.05);
       background: #3e6649;
+    }
+
+    .nav-button.active {
+      background: #f5c949;
+      color: #2e5639;
+      box-shadow: 0 0 15px rgba(245, 201, 73, 0.6);
+      transform: scale(1.1);
+    }
+
+    .nav-button.active::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 8px;
+      background: radial-gradient(ellipse at center, rgba(245, 201, 73, 0.8) 0%, rgba(245, 201, 73, 0.4) 50%, transparent 70%);
+      border-radius: 50%;
+      animation: spotlight 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes spotlight {
+      0% {
+        opacity: 0.6;
+        transform: translateX(-50%) scale(1);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.2);
+      }
     }
 
     /* Profile 섹션에서 네비게이션 색상 반전 */
@@ -57,6 +89,16 @@
     .nav-inverted .nav-button:hover {
       background: #ffffff !important;
       color: #2e5639 !important;
+    }
+
+    .nav-inverted .nav-button.active {
+      background: #2e5639 !important;
+      color: #f9f6dc !important;
+      box-shadow: 0 0 15px rgba(46, 86, 57, 0.6) !important;
+    }
+
+    .nav-inverted .nav-button.active::after {
+      background: radial-gradient(ellipse at center, rgba(46, 86, 57, 0.8) 0%, rgba(46, 86, 57, 0.4) 50%, transparent 70%) !important;
     }
 
     .nav-button:active {
@@ -95,62 +137,22 @@
       overflow: hidden;
     }
 
+    /* 첫 페이지 비디오 스타일 */
+    .hero-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
     .hero .year {
       width: 400px;
       max-width: 100%;
       position: absolute;
-      z-index: 0;
-    }
-
-    .hello-float {
-      position: absolute;
-      top: 0;
-      left: 0;
       z-index: 1;
-      width: 100%;
-      height: 100%;
-    }
-
-    .hello-float img {
-      width: 500px;
-      height: auto;
-      position: absolute;
-      pointer-events: none;
-      transform: scale(0) translateX(0);
-      opacity: 0;
-      animation: spreadIn 1.2s ease-out forwards;
-    }
-
-    .hello-float img:nth-child(1) { 
-      animation-delay: 0s; 
-      width: 500px; /* H는 원래 크기 유지 */
-    }
-    .hello-float img:nth-child(2) { 
-      animation-delay: 0.1s; 
-      width: 420px; /* E 줄임 */
-    }
-    .hello-float img:nth-child(3) { 
-      animation-delay: 0.2s; 
-      width: 420px; /* L 줄임 */
-    }
-    .hello-float img:nth-child(4) { 
-      animation-delay: 0.3s; 
-      width: 420px; /* L 줄임 */
-    }
-    .hello-float img:nth-child(5) { 
-      animation-delay: 0.4s; 
-      width: 420px; /* O 줄임 */
-    }
-
-    @keyframes spreadIn {
-      0% {
-        transform: scale(0) translateX(0);
-        opacity: 0;
-      }
-      100% {
-        transform: scale(1) translateX(var(--spread-x));
-        opacity: 1;
-      }
     }
 
     h2 {
@@ -201,6 +203,19 @@
       position: relative;
     }
 
+    /* 세로 영상일 때는 비디오 컨테이너만 가운데 정렬, 폴더는 고정 */
+    .project-content.vertical-layout {
+      position: relative;
+    }
+
+    .project-content.vertical-layout .video-container {
+      position: absolute !important;
+      left: 50% !important;
+      top: 50px !important;
+      transform: translateX(-50%) !important;
+      z-index: 5 !important;
+    }
+
     .projects-column {
       display: flex;
       flex-direction: column;
@@ -232,6 +247,17 @@
       color: #f9f6dc;
       font-family: 'Jua', sans-serif;
       font-size: 18px;
+      transition: all 0.3s ease;
+    }
+
+    /* 세로 영상용 컨테이너 스타일 개선 */
+    .video-container.vertical {
+      background-color: #000 !important;
+      border-color: #000 !important;
+      justify-content: center !important;
+      align-items: center !important;
+      margin: 0 !important;
+      flex-shrink: 0 !important;
     }
 
     .video-container video {
@@ -239,6 +265,13 @@
       height: 100%;
       object-fit: cover;
       display: block;
+    }
+
+    /* 세로 영상일 때 비디오 스타일 개선 */
+    .video-container.vertical video {
+      object-fit: contain !important; /* fill 대신 contain 사용으로 비율 유지 */
+      width: 100% !important;
+      height: 100% !important;
     }
 
     .projects {
@@ -270,22 +303,23 @@
     }
 
     .project-item:nth-child(1) { 
-      background-image: url('images/11.png');
+      background-image: url('11.png');
     }
     .project-item:nth-child(2) { 
-      background-image: url('images/12.png');
+      background-image: url('12.png');
     }
     .project-item:nth-child(3) { 
-      background-image: url('images/13.png');
+      background-image: url('13.png');
     }
     .project-item:nth-child(4) { 
-      background-image: url('images/14.png');
+      background-image: url('14.png');
     }
 
     .project-item span {
       line-height: 1.1;
       font-weight: bold;
       font-family: 'Jua', sans-serif;
+      display: none;
     }
 
     .project-item:hover {
@@ -359,13 +393,16 @@
       align-items: left;
       flex-shrink: 0;
     }
-
-    .profile-photo {
+  .profile-photo {
       width: 160px;
       height: 200px;
       background-color: #f9f6dc;
       margin-bottom: 15px;
       border-radius: 8px;
+      background-image: url('image03.png'); /* 여기에 증명사진 경로 입력 */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
 
     .profile-info {
@@ -538,14 +575,10 @@
 </div>
 
 <header class="hero" id="hero">
-  <img src="images/2024.png" class="year" alt="2025" />
-  <div class="hello-float" id="helloContainer">
-    <img src="images/button.png" alt="H" style="--spread-x: -240px; transform: scale(1.114);" />
-    <img src="images/e.png" alt="E" style="--spread-x: -120px;" />
-    <img src="images/l.png" alt="L" style="--spread-x: 0px;" />
-    <img src="images/l2.png" alt="L" style="--spread-x: 120px;" />
-    <img src="images/o.png" alt="O" style="--spread-x: 240px;" />
-  </div>
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="1페이지.mp4" type="video/mp4">
+    비디오를 재생할 수 없습니다.
+  </video>
 </header>
 
 <section id="portfolio">
@@ -554,17 +587,17 @@
     <div class="project-content">
       <div class="projects-column">
         <div class="projects">
-          <div class="project-item" onclick="playVideo('videos/럭키밀.mp4')">
-            <button class="project-more-btn" onclick="event.stopPropagation(); openProjectOverview('images/overview1.jpg')">MORE</button>
+          <div class="project-item" onclick="playVideo('럭키밀.mp4')">
+            <button class="project-more-btn" onclick="event.stopPropagation(); openProjectOverview('overview1.jpg')">MORE</button>
           </div>
-          <div class="project-item" onclick="playVideo('videos/영유아안전영상.mp4')">
-            <button class="project-more-btn" onclick="event.stopPropagation(); openProjectOverview('images/overview2.jpg')">MORE</button>
+          <div class="project-item" onclick="playVideo('영유아안전영상.mp4')">
+            <button class="project-more-btn" onclick="event.stopPropagation(); openProjectOverview('overview2.jpg')">MORE</button>
           </div>
-          <div class="project-item" onclick="playVideo('videos/집.mp4')">
-            <button class="project-more-btn" onclick="event.stopPropagation(); openProjectOverview('images/overview3.jpg')">MORE</button>
+          <div class="project-item" onclick="playVideo('집.mp4')">
+            <button class="project-more-btn" onclick="event.stopPropagation(); openProjectOverview('overview3.jpg')">MORE</button>
           </div>
-          <div class="project-item" onclick="playVideo('videos/FOOH광고.mp4')">
-            <button class="project-more-btn" onclick="event.stopPropagation(); openMultipleOverview(['images/overview4.jpg', 'images/overview4-2.jpg'])">MORE</button>
+          <div class="project-item" onclick="playVideo('FOOH광고.mp4')">
+            <button class="project-more-btn" onclick="event.stopPropagation(); openMultipleOverview(['overview4.jpg', 'overview4-2.jpg'])">MORE</button>
           </div>
         </div>
       </div>
@@ -600,23 +633,23 @@
       <div class="skills-section" style="margin-top: 65px; background-color: transparent;">
         <strong style="display: block; margin-bottom: 20px; font-size: 30px !important; text-align: left; color: #f9f6dc; white-space: nowrap;">SKILL & ABILITY</strong>
         <div class="skill-item">
-          <img src="images/ae.png" alt="After Effects" class="skill-icon" />
+          <img src="Ae.png" alt="After Effects" class="skill-icon" />
           <div class="skills-bar"><div class="skills-bar-fill" data-width="80"></div></div>
         </div>
         <div class="skill-item">
-          <img src="images/pr.png" alt="Premiere Pro" class="skill-icon" />
+          <img src="pr.png" alt="Premiere Pro" class="skill-icon" />
           <div class="skills-bar"><div class="skills-bar-fill" data-width="70"></div></div>
         </div>
         <div class="skill-item">
-          <img src="images/ps.png" alt="Photoshop" class="skill-icon" />
+          <img src="ps.png" alt="Photoshop" class="skill-icon" />
           <div class="skills-bar"><div class="skills-bar-fill" data-width="90"></div></div>
         </div>
         <div class="skill-item">
-          <img src="images/ai.png" alt="Illustrator" class="skill-icon" />
+          <img src="ai.png" alt="Illustrator" class="skill-icon" />
           <div class="skills-bar"><div class="skills-bar-fill" data-width="75"></div></div>
         </div>
         <div class="skill-item">
-          <img src="images/bl.png" alt="Blender" class="skill-icon" />
+          <img src="bl.png" alt="Blender" class="skill-icon" />
           <div class="skills-bar"><div class="skills-bar-fill" data-width="60"></div></div>
         </div>
       </div>
@@ -630,16 +663,16 @@
     <div class="footer-thanks">끝까지 봐주셔서 감사합니다 :)</div>
 
     <div class="contact-button-wrapper">
-      <img src="images/contact.png" alt="Contact" class="contact-button" />
+      <img src="contact.png" alt="Contact" class="contact-button" />
     </div>
 
     <div class="contact">
       <div class="contact-item">
-        <img src="images/Mess.png" alt="Email" class="icon" />
+        <img src="Mess.png" alt="Email" class="icon" />
         <span>rkdskdus13@naver.com</span>
       </div>
       <div class="contact-item">
-        <img src="images/Ph.png" alt="Phone" class="icon" />
+        <img src="Ph.png" alt="Phone" class="icon" />
         <span>010.3247.1509</span>
       </div>
     </div>
@@ -668,75 +701,23 @@ function changeNavColor(isProfile) {
   });
 }
 
-// 전역 변수 수정
-let isInitialLoad = true; // 최초 로딩인지 확인
-let currentSection = 'hero'; // 현재 있는 섹션 추적
-
-// HELLO 애니메이션을 다시 시작하는 함수 (재방문용)
-function restartHelloAnimation() {
-  // 최초 로딩 중이면 실행하지 않음
-  if (isInitialLoad) {
-    console.log('최초 로딩 중이므로 애니메이션 재시작 안 함');
-    return;
-  }
+// 현재 활성 페이지 표시 함수
+function setActiveNavButton(pageIndex) {
+  const navButtons = document.querySelectorAll('.nav-button');
   
-  const helloImgs = document.querySelectorAll("#helloContainer img");
-  const hero = document.getElementById("hero");
-  const heroWidth = hero.clientWidth;
-  const heroHeight = hero.clientHeight;
-  
-  // 기존 플로팅 애니메이션 완전히 중지
-  if (window.floatingAnimationId) {
-    cancelAnimationFrame(window.floatingAnimationId);
-    window.floatingAnimationId = null;
-  }
-  
-  // 모든 이미지 위치 및 스타일 완전 초기화
-  helloImgs.forEach((img, index) => {
-    // 애니메이션 완전히 제거
-    img.style.animation = 'none';
-    img.style.transform = 'scale(0) translateX(0)';
-    img.style.opacity = '0';
-    
-    // 원래 초기 위치 계산
-    let w = 500;
-    if (img.src.includes("button.png")) {
-      w += 70; // H는 570px
-    } else {
-      w = 420; // E, L, L, O는 420px
-    }
-    const h = img.naturalHeight * (w / img.naturalWidth);
-    const spreadX = parseFloat(getComputedStyle(img).getPropertyValue('--spread-x')) || 0;
-    const baseX = (heroWidth - w) / 2 + spreadX + 50; // 왼쪽으로 50px 이동
-    const baseY = (heroHeight - h) / 2 - 50;
-
-    // 강제로 위치 설정
-    img.style.left = `${baseX}px`;
-    img.style.top = `${baseY}px`;
-    img.style.position = 'absolute';
-    
-    // elements 배열 초기화
-    if (elements[index]) {
-      elements[index].x = baseX;
-      elements[index].y = baseY;
-      elements[index].dx = (Math.random() - 0.5) * 0.6; // 3배 빠른 속도
-      elements[index].dy = (Math.random() - 0.5) * 0.6;
-    }
+  // 모든 버튼에서 active 클래스 제거
+  navButtons.forEach(button => {
+    button.classList.remove('active');
   });
   
-  // 애니메이션 카운터 초기화
-  appearCount = 0;
-  
-  // 잠시 후 새로운 애니메이션 시작
-  setTimeout(() => {
-    helloImgs.forEach((img, index) => {
-      img.style.animation = `spreadIn 1.2s ease-out forwards`;
-      img.style.animationDelay = `${index * 0.1}s`;
-    });
-  }, 100);
-  
-  console.log('🎬 HELLO 애니메이션 재시작!');
+  // 현재 페이지 버튼에 active 클래스 추가
+  if (navButtons[pageIndex]) {
+    navButtons[pageIndex].classList.add('active');
+  }
 }
+
+// 전역 변수 수정
+let currentSection = 'hero'; // 현재 있는 섹션 추적
 
 // 현재 재생 중인 비디오를 정지하는 함수
 function pauseCurrentVideo() {
@@ -771,20 +752,15 @@ function goToPage(pageIndex) {
     });
   }
   
-  // Intro 페이지로 이동할 때 (다른 섹션에서 왔을 때만)
-  if (pageIndex === 0 && currentSection !== 'hero') {
-    setTimeout(() => {
-      restartHelloAnimation();
-    }, 800);
-  }
-  
-  // 페이지에 따라 네비게이션 색상 변경
+  // 페이지에 따라 네비게이션 색상 변경 및 활성 버튼 표시
   if (pageIndex === 2) { // Profile 페이지
     setTimeout(() => {
       changeNavColor(true);
+      setActiveNavButton(pageIndex);
     }, 100);
   } else { // 다른 페이지들
     changeNavColor(false);
+    setActiveNavButton(pageIndex);
   }
 }
 
@@ -813,21 +789,24 @@ function initScrollObserver() {
         console.log('섹션 이동:', previousSection, '→', sectionId);
         
         if (sectionId === 'hero') {
-          // 다른 섹션에서 Hero 섹션으로 스크롤해서 왔을 때만 애니메이션 재시작
-          if (!isInitialLoad && previousSection !== 'hero') {
-            setTimeout(() => {
-              restartHelloAnimation();
-            }, 300);
-            console.log('🎬 Hero 섹션 - 스크롤로 재진입, 애니메이션 재시작!');
-          } else if (isInitialLoad) {
-            console.log('🎬 Hero 섹션 - 최초 로딩');
-          } else {
-            console.log('🎬 Hero 섹션 - 이미 Hero 섹션에 있음');
+          // Hero 섹션으로 이동할 때마다 비디오를 처음부터 재시작
+          const heroVideo = document.querySelector('.hero-video');
+          if (heroVideo) {
+            heroVideo.currentTime = 0;
+            heroVideo.play();
           }
           changeNavColor(false);
+          setActiveNavButton(0);
+        } else if (sectionId === 'portfolio') {
+          changeNavColor(false);
+          setActiveNavButton(1);
         } else if (sectionId === 'profile') {
           changeNavColor(true);
+          setActiveNavButton(2);
           console.log('🎯 Profile 섹션 - 색상 반전!');
+        } else if (sectionId === 'contact-section') {
+          changeNavColor(false);
+          setActiveNavButton(3);
         } else {
           changeNavColor(false);
           console.log('📍', sectionId, '섹션 - 원래 색상');
@@ -853,224 +832,9 @@ function initScrollObserver() {
 document.addEventListener('DOMContentLoaded', () => {
   initScrollObserver();
   changeNavColor(false); // 초기에는 기본 색상
+  setActiveNavButton(0); // 초기에는 첫 번째 버튼 활성화
   console.log('페이지 로드 완료 - 네비게이션 초기화');
-  
-  // 최초 애니메이션 완료 후 플래그 해제 (좀 더 빠르게)
-  setTimeout(() => {
-    isInitialLoad = false;
-    console.log('최초 로딩 플래그 해제 - 이제 애니메이션 재시작 가능');
-  }, 2000); // 2초로 단축
 });
-
-  // HELLO 애니메이션 코드
-  const hero = document.getElementById("hero");
-  const helloImgs = document.querySelectorAll("#helloContainer img");
-  const heroWidth = hero.clientWidth;
-  const heroHeight = hero.clientHeight;
-  const elements = [];
-  let appearCount = 0;
-
-  helloImgs.forEach((img) => {
-    let w = 500;
-    if (img.src.includes("button.png")) {
-      w += 70; // H는 원래대로 570px
-    } else {
-      w = 420; // E, L, L, O는 420px로 줄임
-    }
-    const h = img.naturalHeight * (w / img.naturalWidth);
-    const spreadX = parseFloat(getComputedStyle(img).getPropertyValue('--spread-x')) || 0;
-    const baseX = (heroWidth - w) / 2 + spreadX + 50; // 왼쪽으로 50px 이동
-    const baseY = (heroHeight - h) / 2 - 50; // 위로 50px 올림
-
-    img.style.left = `${baseX}px`;
-    img.style.top = `${baseY}px`;
-
-    img.addEventListener("animationend", () => {
-      appearCount++;
-      if (appearCount === helloImgs.length) startFloating();
-    });
-
-    // 처음부터 자연스러운 무작위 방향과 속도 설정 (3배 빠르게)
-    elements.push({
-      img,
-      x: baseX,
-      y: baseY,
-      dx: (Math.random() - 0.5) * 0.6, // 0.2에서 0.6으로 3배 증가
-      dy: (Math.random() - 0.5) * 0.6,
-      w,
-      h,
-      floatOffset: Math.random() * Math.PI * 2,
-      floatSpeed: 0.015 + Math.random() * 0.009, // 0.005-0.008에서 0.015-0.024로 3배 증가
-      minSpeed: 0.15, // 0.05에서 0.15로 3배 증가
-    });
-  });
-
-  function startFloating() {
-    let time = 0;
-    
-    function animate() {
-      time += 0.016;
-      
-      elements.forEach((el) => {
-        // 자연스러운 플로팅 효과 (3배 빠르게)
-        const floatY = Math.sin(time * el.floatSpeed + el.floatOffset) * 1.2; // 0.4에서 1.2로 3배 증가
-        const floatX = Math.cos(time * el.floatSpeed * 0.7 + el.floatOffset) * 0.9; // 0.3에서 0.9로 3배 증가
-        
-        el.x += el.dx + floatX * 0.6; // 0.2에서 0.6으로 3배 증가
-        el.y += el.dy + floatY * 0.6;
-
-        // 최소 속도 보장
-        const currentSpeed = Math.sqrt(el.dx * el.dx + el.dy * el.dy);
-        if (currentSpeed < el.minSpeed) {
-          const scale = el.minSpeed / currentSpeed;
-          el.dx *= scale;
-          el.dy *= scale;
-        }
-
-        // 최대 속도 제한 (벽 튕김을 위해 더 증가)
-        const maxSpeed = 1.2; // 0.8에서 1.2로 증가 (강한 벽 튕김 허용)
-        if (currentSpeed > maxSpeed) {
-          const scale = maxSpeed / currentSpeed;
-          el.dx *= scale;
-          el.dy *= scale;
-        }
-
-        const topBottomMargin = 0; // 상하 여백 제거 (화면 경계와 정확히 맞춤)
-        const sideMargin = 300;
-        
-        // 벽 충돌 시 매우 강력한 반발 (3배 더 강화!)
-        if (el.x < sideMargin) {
-          el.x = sideMargin + 5; // 약간 안쪽으로 밀어넣기
-          el.dx = Math.abs(el.dx) * 5.4; // 강력한 오른쪽 튕김
-          console.log('왼쪽 벽 충돌! 속도:', el.dx);
-        } else if (el.x + el.w > heroWidth - sideMargin) {
-          el.x = heroWidth - sideMargin - el.w - 5; // 약간 안쪽으로 밀어넣기
-          el.dx = -Math.abs(el.dx) * 5.4; // 강력한 왼쪽 튕김
-          console.log('오른쪽 벽 충돌! 속도:', el.dx);
-        }
-
-        if (el.y < topBottomMargin) {
-          el.y = topBottomMargin + 5; // 화면 맨 위에서 튕김
-          el.dy = Math.abs(el.dy) * 5.4; // 강력한 아래쪽 튕김
-          console.log('위쪽 벽 충돌! 속도:', el.dy);
-        } else if (el.y + el.h > heroHeight - topBottomMargin) {
-          el.y = heroHeight - topBottomMargin - el.h - 5; // 화면 맨 아래에서 튕김
-          el.dy = -Math.abs(el.dy) * 5.4; // 강력한 위쪽 튕김
-          console.log('아래쪽 벽 충돌! 속도:', el.dy);
-        }
-      });
-
-      // 풍선 같은 충돌 감지 및 처리
-      for (let i = 0; i < elements.length; i++) {
-        for (let j = i + 1; j < elements.length; j++) {
-          const el1 = elements[i];
-          const el2 = elements[j];
-          
-          const centerX1 = el1.x + el1.w / 2;
-          const centerY1 = el1.y + el1.h / 2;
-          const centerX2 = el2.x + el2.w / 2;
-          const centerY2 = el2.y + el2.h / 2;
-          
-          const dx = centerX2 - centerX1;
-          const dy = centerY2 - centerY1;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          // 각 글자별 개별 충돌 경계 설정 (1.2배 더 확대)
-          let radius1, radius2;
-          
-          // el1의 반지름 결정 (현재 값에서 1.2배)
-          if (el1.img.src.includes("button.png")) { // H
-            radius1 = 54; // 45에서 54로 (1.2배)
-          } else if (el1.img.src.includes("e.png")) { // E
-            radius1 = 45; // 37.5에서 45로 (1.2배)
-          } else if (el1.img.src.includes("l.png") || el1.img.src.includes("l2.png")) { // L들
-            radius1 = 39.6; // 33에서 39.6으로 (1.2배)
-          } else if (el1.img.src.includes("o.png")) { // O
-            radius1 = 50.4; // 42에서 50.4로 (1.2배)
-          } else {
-            radius1 = 45; // 기본값도 1.2배
-          }
-          
-          // el2의 반지름 결정 (현재 값에서 1.2배)
-          if (el2.img.src.includes("button.png")) { // H
-            radius2 = 54;
-          } else if (el2.img.src.includes("e.png")) { // E
-            radius2 = 45;
-          } else if (el2.img.src.includes("l.png") || el2.img.src.includes("l2.png")) { // L들
-            radius2 = 39.6;
-          } else if (el2.img.src.includes("o.png")) { // O
-            radius2 = 50.4;
-          } else {
-            radius2 = 45; // 기본값도 1.2배
-          }
-          
-          const minDistance = radius1 + radius2;
-          
-          if (distance < minDistance && distance > 0) {
-            const normalX = dx / distance;
-            const normalY = dy / distance;
-            
-            // 부드러운 분리 (더 강력한 분리)
-            const overlap = minDistance - distance;
-            const separateDistance = overlap * 1.5; // 0.9에서 1.5로 더 강하게
-            
-            el1.x -= normalX * separateDistance;
-            el1.y -= normalY * separateDistance;
-            el2.x += normalX * separateDistance;
-            el2.y += normalY * separateDistance;
-            
-            // 풍선 같은 탄성 충돌 (훨씬 더 강하게!)
-            const bounceIntensity = 1.5; // 0.9에서 1.5로 대폭 증가
-            const damping = 0.5; // 0.6에서 0.5로 변경 (더 적은 감쇠)
-            
-            // 충돌 전 속도
-            const vel1X = el1.dx;
-            const vel1Y = el1.dy;
-            const vel2X = el2.dx;
-            const vel2Y = el2.dy;
-            
-            // 풍선 같은 속도 교환 (탄성 충돌)
-            el1.dx = (vel1X + (vel2X - vel1X) * bounceIntensity) * damping;
-            el1.dy = (vel1Y + (vel2Y - vel1Y) * bounceIntensity) * damping;
-            el2.dx = (vel2X + (vel1X - vel2X) * bounceIntensity) * damping;
-            el2.dy = (vel2Y + (vel1Y - vel2Y) * bounceIntensity) * damping;
-            
-            // 추가 반발력 (대폭 강화!)
-            const repelForce = 0.15; // 0.06에서 0.15로 2.5배 증가
-            el1.dx -= normalX * repelForce;
-            el1.dy -= normalY * repelForce;
-            el2.dx += normalX * repelForce;
-            el2.dy += normalY * repelForce;
-            
-            // 충돌 후 추가 가속 (확실한 튕김을 위해)
-            const extraBounce = 0.1;
-            el1.dx -= normalX * extraBounce;
-            el1.dy -= normalY * extraBounce;
-            el2.dx += normalX * extraBounce;
-            el2.dy += normalY * extraBounce;
-            
-            // 최소 속도 보장
-            [el1, el2].forEach(el => {
-              const speed = Math.sqrt(el.dx * el.dx + el.dy * el.dy);
-              if (speed < el.minSpeed) {
-                const scale = el.minSpeed / speed;
-                el.dx *= scale;
-                el.dy *= scale;
-              }
-            });
-          }
-        }
-      }
-
-      elements.forEach((el) => {
-        el.img.style.left = `${el.x}px`;
-        el.img.style.top = `${el.y}px`;
-      });
-      
-      window.floatingAnimationId = requestAnimationFrame(animate);
-    }
-    animate();
-  }
 
   // 스킬 바 애니메이션
   const aboutSection = document.querySelector('.about');
@@ -1099,16 +863,36 @@ document.addEventListener('DOMContentLoaded', () => {
   function playVideo(path) {
     const container = document.getElementById('videoPlayer');
     const placeholder = document.getElementById('videoPlaceholder');
+    const projectContent = document.querySelector('.project-content');
     
+    // 기존 비디오 제거
     const existingVideo = container.querySelector('video');
     if (existingVideo) {
       existingVideo.remove();
     }
     
+    // placeholder 숨기기
     if (placeholder) {
       placeholder.style.display = 'none';
     }
     
+    // 컨테이너 및 레이아웃 초기화
+    container.classList.remove('vertical');
+    projectContent.classList.remove('vertical-layout');
+    
+    // 기본 스타일 복원
+    container.style.width = '1070px';
+    container.style.height = '600px';
+    container.style.backgroundColor = '#2e5639';
+    container.style.borderColor = '#2e5639';
+    container.style.margin = '50px 0 0 0';
+    container.style.position = 'static';
+    container.style.left = 'auto';
+    container.style.top = 'auto';
+    container.style.transform = 'none';
+    container.style.zIndex = 'auto';
+    
+    // 새 비디오 요소 생성
     const video = document.createElement('video');
     video.src = path;
     video.controls = true;
@@ -1116,214 +900,184 @@ document.addEventListener('DOMContentLoaded', () => {
     video.style.width = '100%';
     video.style.height = '100%';
     
+    // 비디오 메타데이터 로드 시 컨테이너 크기 조정
     video.addEventListener('loadedmetadata', function() {
       const videoWidth = this.videoWidth;
       const videoHeight = this.videoHeight;
       const aspectRatio = videoWidth / videoHeight;
       
+      console.log(`비디오 크기: ${videoWidth}x${videoHeight}, 비율: ${aspectRatio.toFixed(2)}`);
+      
       if (aspectRatio < 1) {
-        const maxHeight = 680;
+        // 세로 영상인 경우 - 폴더는 고정, 비디오만 가운데로
+        const maxHeight = 600;
         const calculatedWidth = Math.round(maxHeight * aspectRatio);
         
-        video.style.objectFit = 'fill';
+        // 부모에 vertical-layout 클래스 추가 (absolute positioning 활성화)
+        projectContent.classList.add('vertical-layout');
+        
+        // 세로 영상용 스타일 적용
+        video.style.objectFit = 'contain';
         container.classList.add('vertical');
+        
         container.style.width = (calculatedWidth + 8) + 'px';
         container.style.height = (maxHeight + 8) + 'px';
         container.style.backgroundColor = '#000';
+        container.style.borderColor = '#000';
+        
+        // absolute positioning은 CSS에서 처리됨
+        // JavaScript에서는 기본값만 설정
+        container.style.margin = '0';
+        
+        console.log(`✅ 세로 영상 처리 완료 - 폴더 고정, 비디오만 가운데 정렬, 크기: ${calculatedWidth + 8}x${maxHeight + 8}`);
       } else {
-        video.style.objectFit = 'fill';
+        // 가로 영상인 경우 - 기존 레이아웃 유지
+        video.style.objectFit = 'cover';
         container.classList.remove('vertical');
+        projectContent.classList.remove('vertical-layout');
+        
         container.style.width = '1070px';
         container.style.height = '600px';
-        container.style.backgroundColor = '#ddd';
+        container.style.backgroundColor = '#2e5639';
+        container.style.borderColor = '#2e5639';
+        container.style.margin = '50px 0 0 0';
+        container.style.position = 'static';
+        container.style.left = 'auto';
+        container.style.top = 'auto';
+        container.style.transform = 'none';
+        container.style.zIndex = 'auto';
+        
+        console.log('✅ 가로 영상 처리 완료 - 기존 레이아웃 유지');
       }
     });
     
+    // 비디오 요소를 컨테이너에 추가
     container.appendChild(video);
   }
 
-  // 프로젝트 개요 이미지를 새창으로 여는 함수
+  // 프로젝트 개요 이미지를 새창으로 여는 함수 (간단한 방법)
   function openProjectOverview(imagePath) {
-    const newWindow = window.open('', '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
+    // 간단한 방법으로 새 창 열기
+    const newWindow = window.open('about:blank', '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
     
-    newWindow.document.write(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>프로젝트 개요</title>
-        <style>
-          body {
-            margin: 0;
-            padding: 20px;
-            background-color: #f9f6dc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            font-family: 'Jua', sans-serif;
-          }
-          img {
-            max-width: 100%;
-            max-height: 90vh;
-            border: 3px solid #2e5639;
-            border-radius: 10px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-          }
-          .close-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #2e5639;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-family: 'Jua', sans-serif;
-            font-size: 14px;
-            transition: all 0.3s ease;
-          }
-          .close-btn:hover {
-            background-color: #3e6649;
-            transform: scale(1.05);
-          }
-        </style>
-      </head>
-      <body>
-        <button class="close-btn" onclick="window.close()">닫기</button>
-        <img src="${imagePath}" alt="프로젝트 개요" />
-      </body>
-      </html>
-    `);
-    
-    newWindow.document.close();
+    if (newWindow) {
+      newWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>프로젝트 개요</title>
+          <style>
+            body {
+              margin: 0;
+              padding: 20px;
+              background-color: #f9f6dc;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              min-height: 100vh;
+              font-family: sans-serif;
+            }
+            img {
+              max-width: 100%;
+              max-height: 90vh;
+              border: 3px solid #2e5639;
+              border-radius: 10px;
+              box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            }
+            .close-btn {
+              position: fixed;
+              top: 20px;
+              right: 20px;
+              background-color: #2e5639;
+              color: white;
+              border: none;
+              padding: 10px 20px;
+              border-radius: 20px;
+              cursor: pointer;
+              font-size: 14px;
+            }
+          </style>
+        </head>
+        <body>
+          <button class="close-btn" onclick="window.close()">닫기</button>
+          <img src="${imagePath}" alt="프로젝트 개요" />
+        </body>
+        </html>
+      `);
+      newWindow.document.close();
+    } else {
+      alert('팝업이 차단되었습니다. 브라우저 설정에서 팝업을 허용해주세요.');
+    }
   }
 
-  // 여러 개의 프로젝트 개요 이미지를 새창으로 여는 함수
+  // 여러 개의 프로젝트 개요 이미지를 새창으로 여는 함수 (스크롤 스냅 추가)
   function openMultipleOverview(imagePaths) {
-    const newWindow = window.open('', '_blank', 'width=900,height=700,resizable=yes');
+    const newWindow = window.open('about:blank', '_blank', 'width=900,height=700,resizable=yes');
     
-    newWindow.document.write(`
-      <!DOCTYPE html>
-      <html style="scroll-snap-type: y mandatory; scroll-behavior: smooth;">
-      <head>
-        <title>프로젝트 개요</title>
-        <style>
-          * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-          }
-          
-          html {
-            scroll-snap-type: y mandatory;
-            scroll-behavior: smooth;
-          }
-          
-          body {
-            background-color: #f9f6dc;
-            font-family: 'Jua', sans-serif;
-            overflow-x: hidden;
-          }
-          
-          .image-page {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            scroll-snap-align: start;
-            scroll-snap-stop: always;
-          }
-          
-          img {
-            max-width: 85%;
-            max-height: 80vh;
-            border: 3px solid #2e5639;
-            border-radius: 10px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            object-fit: contain;
-          }
-          
-          .page-indicator {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(46, 86, 57, 0.9);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-family: 'Jua', sans-serif;
-          }
-          
-          .close-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #2e5639;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-family: 'Jua', sans-serif;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-          }
-          
-          .close-btn:hover {
-            background-color: #3e6649;
-            transform: scale(1.05);
-          }
-          
-          .scroll-hint {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: rgba(245, 201, 73, 0.9);
-            color: #2e5639;
-            padding: 8px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-family: 'Jua', sans-serif;
-            z-index: 1000;
-            animation: bounce 2s infinite;
-          }
-          
-          @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-              transform: translateY(0);
+    if (newWindow) {
+      newWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>프로젝트 개요</title>
+          <style>
+            html, body {
+              margin: 0;
+              padding: 0;
+              background-color: #f9f6dc;
+              font-family: sans-serif;
+              scroll-behavior: smooth;
+              scroll-snap-type: y mandatory;
+              overflow-y: auto;
+              height: 100vh;
             }
-            40% {
-              transform: translateY(-5px);
+            .image-container {
+              height: 100vh;
+              scroll-snap-align: start;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 20px;
+              box-sizing: border-box;
             }
-            60% {
-              transform: translateY(-3px);
+            img {
+              max-width: 90%;
+              max-height: 90%;
+              border: 3px solid #2e5639;
+              border-radius: 10px;
+              object-fit: contain;
             }
-          }
-        </style>
-      </head>
-      <body>
-        <button class="close-btn" onclick="window.close()">닫기</button>
-        <div class="scroll-hint">스크롤해서 다음 이미지 보기 ↓</div>
-        ${imagePaths.map((imagePath, index) => `
-          <div class="image-page">
-            <img src="${imagePath}" alt="프로젝트 개요 ${index + 1}" />
-            <div class="page-indicator">${index + 1} / ${imagePaths.length}</div>
-          </div>
-        `).join('')}
-      </body>
-      </html>
-    `);
-    
-    newWindow.document.close();
+            .close-btn {
+              position: fixed;
+              top: 20px;
+              right: 20px;
+              background-color: #2e5639;
+              color: white;
+              border: none;
+              padding: 10px 20px;
+              border-radius: 20px;
+              cursor: pointer;
+              font-size: 14px;
+              z-index: 1000;
+            }
+          </style>
+        </head>
+        <body>
+          <button class="close-btn" onclick="window.close()">닫기</button>
+          ${imagePaths.map((imagePath, index) => `
+            <div class="image-container">
+              <img src="${imagePath}" alt="프로젝트 개요 ${index + 1}" />
+            </div>
+          `).join('')}
+        </body>
+        </html>
+      `);
+      newWindow.document.close();
+    } else {
+      alert('팝업이 차단되었습니다. 브라우저 설정에서 팝업을 허용해주세요.');
+    }
   }
 </script>
 </body>
 </html>
+      
